@@ -18,16 +18,23 @@ def orders_methods():
 
 
 @pytest.fixture(scope='function')
-def test_courier(courier_methods):
+def test_courier_data(courier_methods):
+    '''Создание тестовой учётной записи курьера.'''
+    account_data = get_account_data()
+    courier_methods.create_courier(account_data)
+    return account_data
+
+
+@pytest.fixture(scope='function')
+def test_courier(courier_methods, test_courier_data):
     '''Создание тестовой учётной записи курьера с последующим удалением.'''
-    _, account_data = courier_methods.create_courier(get_account_data())
-    yield account_data
-    courier_methods.delete_courier(account_data)
+    yield test_courier_data
+    courier_methods.delete_courier(test_courier_data)
 
 
 @pytest.fixture(scope='function')
 def test_order(orders_methods):
-    '''Создание тестового заказа с последующим удалением.'''
+    '''Создание тестового заказа с последующей отменой.'''
     _, track = orders_methods.create_order(Orders.ORDER_DATA)
     yield track
     orders_methods.cancel_order(track)

@@ -2,25 +2,25 @@
 import allure
 import pytest
 
-from data import Courier, NOT_FOUND, OK, WRONG_ID
+from data import Common, Courier
 from helpers import code_and_body_are_expected
 
 
 class TestCourierDelete:
 
     @allure.title('Успешное удаление аккаунта курьера')
-    def test_delete_courier_success(self, courier_methods, test_courier):
+    def test_delete_courier_success(self, courier_methods, test_courier_data):
         '''Успешное удаление аккаунта курьера.'''
-        _, account_id = courier_methods.login_courier(test_courier)
+        _, account_id = courier_methods.login_courier(test_courier_data)
         response = courier_methods.delete_courier(account_id)
-        assert code_and_body_are_expected(response, *OK)
+        assert code_and_body_are_expected(response, *Common.OK)
 
     @allure.title('''Ошибка при попытке удалить курьера с несуществующим \
 id или без передачи id''')
     @pytest.mark.parametrize(
         'account_id, expected',
-        [pytest.param(WRONG_ID, Courier.NO_ID, id='wrong id'),
-         pytest.param('', NOT_FOUND, id='empty id')]
+        [pytest.param(Common.WRONG_ID, Courier.NO_ID, id='wrong id'),
+         pytest.param('', Common.NOT_FOUND, id='empty id')]
     )
     def test_delete_courier_wrong_or_no_id_error(
         self, courier_methods, account_id, expected

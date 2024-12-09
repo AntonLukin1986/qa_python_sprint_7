@@ -1,10 +1,13 @@
 '''Статичные данные для API-тестов web-сервиса «Яндекс.Самокат».'''
-WRONG_ID = 0
-# универсальные ответы
-OK_TRUE = {'ok': True}
-CREATED = 201, OK_TRUE
-NOT_FOUND = 404, 'Not Found.'
-OK = 200, OK_TRUE
+
+
+class Common:
+    '''Общие элементы для эндпоинтов.'''
+    WRONG_ID = 0
+    OK_TRUE = {'ok': True}
+    CREATED = 201, OK_TRUE
+    NOT_FOUND = 404, 'Not Found.'
+    OK = 200, OK_TRUE
 
 
 class Courier:

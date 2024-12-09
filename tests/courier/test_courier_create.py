@@ -2,7 +2,7 @@
 import allure
 import pytest
 
-from data import Courier, CREATED
+from data import Common, Courier
 from helpers import code_and_body_are_expected, get_account_data
 
 
@@ -14,7 +14,7 @@ class TestCourierCreate:
         response, account = courier_methods.create_courier(get_account_data())
         _, account_id = courier_methods.login_courier(account)
         courier_methods.delete_courier(account_id)
-        assert code_and_body_are_expected(response, *CREATED)
+        assert code_and_body_are_expected(response, *Common.CREATED)
 
     @allure.title('Невозможно создать двух курьеров с одинаковым логином')
     def test_create_courier_duplicate_error(

@@ -1,7 +1,7 @@
 '''Тесты эндпоинта для принятия заказов.'''
 import allure
 import pytest
-from data import NOT_FOUND, OK, WRONG_ID, Orders
+from data import Common, Orders
 from helpers import code_and_body_are_expected
 
 
@@ -17,14 +17,15 @@ class TestOrdersAccept:
         response = orders_methods.accept_order(
             order_data.get('id'), courier_id
         )
-        assert code_and_body_are_expected(response, *OK)
+        assert code_and_body_are_expected(response, *Common.OK)
 
     @allure.title(
         'Ошибка при попытке принять заказ без или с неверным id курьера'
     )
     @pytest.mark.parametrize(
         'courier_id, expected',
-        [(None, Orders.MISSED_DATA), (WRONG_ID, Orders.WRONG_COURIER_ID)]
+        [(None, Orders.MISSED_DATA),
+         (Common.WRONG_ID, Orders.WRONG_COURIER_ID)]
     )
     def test_accept_order_no_or_wrong_courier_id_error(
         self, orders_methods, test_order, courier_id, expected
@@ -41,7 +42,7 @@ class TestOrdersAccept:
     )
     @pytest.mark.parametrize(
         'order_id, expected',
-        [(WRONG_ID, Orders.WRONG_ORDER_ID), ('', NOT_FOUND)]
+        [(Common.WRONG_ID, Orders.WRONG_ORDER_ID), ('', Common.NOT_FOUND)]
     )
     def test_accept_order_no_or_wrong_order_id_error(
         self, courier_methods, orders_methods, test_courier, order_id, expected
